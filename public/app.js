@@ -28,6 +28,12 @@
       const saved = JSON.parse(localStorage.getItem(KEY));
       if (saved && (saved.version === 1 || saved.version === 2) && Array.isArray(saved.answers) && saved.answers.length <= 6 && saved.answers.every(v => Number.isInteger(v) && v >= 0 && v < 3) && Array.isArray(saved.history) && saved.history.length < 180 && ['welcome','questions','bridge','testimonials','offer','faq','checkout','gift','paused'].includes(saved.stage)) {
         state = saved;
+        if (config.offerEnabled) {
+          state.history = state.history.filter(item => item.text !== 'O atendimento ainda não está disponível para contratação. Seu material comprado e seu presente continuam acessíveis.');
+          state.history.forEach(item => {
+            if (item.kind === 'offer' && typeof item.text === 'string') item.text = item.text.replace('EU MONTO SEU PLANO\nCom a nutricionista Luana Araújo', 'SEU PLANO ALIMENTAR PERSONALIZADO\nPor Luana Araújo');
+          });
+        }
         if (saved.version === 1 && ['welcome','paused'].includes(saved.stage)) state = fresh();
       }
     } catch (_) { /* A conversa também funciona sem armazenamento. */ }
@@ -76,7 +82,7 @@
   function offer() {
     state.stage = 'offer';
     audio('A proposta é sair do “tenho várias receitas” para uma orientação sobre como organizar sua alimentação.\n\nDepois da contratação, você completa as informações do atendimento. A Luana avalia o seu caso, esclarece o que for necessário e elabora o plano considerando sua realidade.', 'offer');
-    msg('EU MONTO SEU PLANO\nCom a nutricionista Luana Araújo\n\n• Avaliação individual pela profissional.\n• Plano alimentar elaborado após a avaliação.\n• Orientações de uso e substituições previstas no plano.', { kind: 'offer', price: money });
+    msg('SEU PLANO ALIMENTAR PERSONALIZADO\nPor Luana Araújo\n\n• Avaliação individual pela profissional.\n• Plano alimentar elaborado após a avaliação.\n• Orientações de uso e substituições previstas no plano.', { kind: 'offer', price: money });
     if (config.deliveryText) msg(config.deliveryText + (config.supportText ? '\n\n' + config.supportText : ''));
     if (!config.offerEnabled) msg('O atendimento ainda não está disponível para contratação. Seu material comprado e seu presente continuam acessíveis.');
   }

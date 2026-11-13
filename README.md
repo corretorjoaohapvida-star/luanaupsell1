@@ -2,10 +2,18 @@
 
 Funil de conversa com oito áudios, dois depoimentos em vídeo e presente. Site estático em public/, sem build. Vercel: framework Other, output directory public.
 
-## Estado
+## Contratação
 
-Oferta: Seu Plano Alimentar Personalizado — por Luana Araújo, R$ 27, pagamento único. Produto Cakto 56b6342e-5563-467a-b568-3de500b17b92, oferta uuzxa7q, aguardando configuração de entrega. Contratação bloqueada no front enquanto offerEnabled for false.
+Oferta ativa: Seu Plano Alimentar Personalizado — por Luana Araújo, R$ 27, pagamento único.
 
-O quiz guarda respostas apenas no navegador. Não envia mensagens, não confirma pagamento e não executa compra em um clique. Contato profissional e entrega precisam de operação própria. A página de obrigado é mantida em repositório separado.
+Checkout: https://pay.cakto.com.br/uuzxa7q_1318634
 
-Para concluir: configurar materialUrl, checkoutUrl, prazo/entrega, suporte e ativação da oferta em public/config.js. Vincular ao pós-compra apenas após verificar pagamento e entrega.
+Produto Cakto: 56b6342e-5563-467a-b568-3de500b17b92. Oferta: uuzxa7q. Entrega por emailAccess, link https://luanaobrigado.vercel.app/, conferido na API após configuração pelo usuário. offerEnabled: true.
+
+Após confirmação do pagamento, contato pelo e-mail e WhatsApp cadastrados. O plano é elaborado após avaliação profissional, com prazo informado no atendimento. Suporte: joaodavidmkt2025@gmail.com.
+
+O quiz guarda respostas no navegador. O botão abre o checkout normal, não executa compra em um clique e não confirma pagamentos. Apenas o perfil de rotina é acrescentado à URL. A página não envia mensagens nem realiza o atendimento. materialUrl continua vazio; o menu orienta usar o acesso recebido na compra.
+
+## Validação
+
+Jornada no navegador, retomada de conversa antiga e abertura do checkout verificadas sem realizar pagamento. Em conversas antigas, o aviso de contratação indisponível é removido ao carregar com a oferta ativa.
