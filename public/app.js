@@ -322,5 +322,5 @@
   });
   $('close-dialog').addEventListener('click', () => $('info-dialog').close());
   window.Funil = Object.freeze({ profile, questions, profiles });
-  load(); if (!state.history.length) start(); else { visibleCount = state.history.length; render(); }
+  load(); if (!state.history.length) start(); else { save(); visibleCount = state.history.length; render(); }
 })();
