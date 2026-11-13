@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#075e54">
+  <title>Boas-vindas • Nutri Luana Araújo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="intro-panel">
+    <a class="brand" href="./">LA<span>LUANA ARAÚJO<br><small>RECEITAS PROTEICAS DE LISO</small></span></a>
+    <div class="intro-copy"><span class="eyebrow">UM COMEÇO MAIS SIMPLES</span><h1>As receitas<br>já são suas.<br><em>Vamos ao<br>primeiro passo?</em></h1><p>Uma conversa para conhecer sua rotina e ajudar você a começar.</p><div class="gift-note"><span>✦</span><div><strong>Um presente no final</strong><p>Três ideias para começar aproveitando os ingredientes.</p></div></div></div>
+    <small class="signature">Comida de verdade. Uma rotina possível.</small>
+  </aside>
+  <main class="phone" aria-label="Conversa guiada com a equipe Luana Araújo">
+    <header class="chat-header">
+      <div class="avatar"><img src="assets/luana.webp" alt="Luana Araújo" width="45" height="45"></div>
+      <div class="contact"><h2>Nutri Luana Araújo</h2><span>Atendimento online</span></div>
+      <button id="menu-btn" class="icon-button" aria-label="Abrir opções" aria-expanded="false">⋮</button>
+      <nav id="menu" hidden><button data-action="access">Acessar minhas receitas</button><button data-action="restart">Recomeçar</button></nav>
+    </header>
+    <div class="journey"><span id="journey-label">BOAS-VINDAS</span><span id="progress-label">Seu primeiro passo</span><div class="track"><i id="progress"></i></div></div>
+    <section id="messages" class="messages" role="log" aria-label="Mensagens da conversa" aria-live="polite" aria-relevant="additions"></section>
+    <div id="choices" class="choices"></div>
+    <footer class="composer"><p id="composer-note">Responda pelos botões da mensagem</p></footer>
+  </main>
+  <dialog id="info-dialog"><div class="dialog-content"><button id="close-dialog" class="close-dialog" aria-label="Fechar">×</button><h2 id="dialog-title"></h2><div id="dialog-body"></div></div></dialog>
+  <script src="config.js"></script><script src="audio-data.js"></script><script src="app.js"></script>
+</body>
+</html>
