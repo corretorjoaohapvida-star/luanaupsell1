@@ -8,7 +8,7 @@ window.FUNIL_CONFIG = {
   // Contratação liberada pelo usuário após configurar a entrega na Cakto.
   offerEnabled: true,
   deliveryText: 'Após a confirmação do pagamento, a equipe da Luana Araújo entrará em contato pelo e-mail e WhatsApp informados na compra para dar continuidade ao atendimento. O plano será elaborado após a avaliação profissional. O prazo de entrega será informado no atendimento.',
-  supportText: 'Confira também as pastas de spam e promoções. Para corrigir seus contatos ou pedir ajuda, escreva para joaodavidmkt2025@gmail.com e informe o número do pedido.',
+  supportText: 'Confira também as pastas de spam e promoções. Para dúvidas sobre sua compra, acesse a ajuda da Cakto: https://ajuda.cakto.com.br/ e tenha o número do pedido em mãos.',
   testimonials: [
     { src: 'videos/depoimento-01.mp4', poster: 'videos/depoimento-01.jpg', title: 'Depoimento 1' },
     { src: 'videos/depoimento-02.mp4', poster: 'videos/depoimento-02.jpg', title: 'Depoimento 2' }

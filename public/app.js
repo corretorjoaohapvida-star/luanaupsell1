@@ -28,6 +28,11 @@
       const saved = JSON.parse(localStorage.getItem(KEY));
       if (saved && (saved.version === 1 || saved.version === 2) && Array.isArray(saved.answers) && saved.answers.length <= 6 && saved.answers.every(v => Number.isInteger(v) && v >= 0 && v < 3) && Array.isArray(saved.history) && saved.history.length < 180 && ['welcome','questions','bridge','testimonials','offer','faq','checkout','gift','paused'].includes(saved.stage)) {
         state = saved;
+        state.history.forEach(item => {
+          if (typeof item.text === 'string' && /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(item.text)) {
+            item.text = item.text.includes('Após a confirmação do pagamento') ? config.deliveryText + '\n\n' + config.supportText : config.supportText;
+          }
+        });
         if (config.offerEnabled) {
           state.history = state.history.filter(item => item.text !== 'O atendimento ainda não está disponível para contratação. Seu material comprado e seu presente continuam acessíveis.');
           state.history.forEach(item => {
@@ -77,12 +82,12 @@
     state.stage = 'testimonials';
     msg('Antes dos detalhes, veja os relatos em vídeo. Toque no play para assistir com som.');
     videos.forEach((video, index) => msg(video.title || `Depoimento ${index + 1}`, { kind: 'testimonial', video: index }));
-    msg('Quando quiser, continue para conhecer o atendimento, o que está incluído e o investimento.');
+    msg('Você já deu o primeiro passo escolhendo suas receitas. Agora imagine chegar à hora de comer sem precisar decidir tudo de novo, com um plano que considere sua rotina e o que cabe no seu bolso.\n\nVeja como a Luana pode te ajudar a colocar isso em prática.');
   }
   function offer() {
     state.stage = 'offer';
     audio('A proposta é sair do “tenho várias receitas” para uma orientação sobre como organizar sua alimentação.\n\nDepois da contratação, você completa as informações do atendimento. A Luana avalia o seu caso, esclarece o que for necessário e elabora o plano considerando sua realidade.', 'offer');
-    msg('SEU PLANO ALIMENTAR PERSONALIZADO\nPor Luana Araújo\n\n• Avaliação individual pela profissional.\n• Plano alimentar elaborado após a avaliação.\n• Orientações de uso e substituições previstas no plano.', { kind: 'offer', price: money });
+    msg('SEU PLANO ALIMENTAR PERSONALIZADO\nPor Luana Araújo\n\nVocê tenta se organizar, o dia aperta e, quando vê, está escolhendo qualquer coisa com fome. Ter receitas ajuda. Ter um plano que considere a sua rotina é o próximo passo.\n\n• Avaliação individual com a Luana.\n• Plano alimentar elaborado após a avaliação, considerando seus gostos, sua rotina e seu orçamento.\n• Orientações e substituições para saber como seguir o plano no dia a dia.', { kind: 'offer', price: money });
     if (config.deliveryText) msg(config.deliveryText + (config.supportText ? '\n\n' + config.supportText : ''));
     if (!config.offerEnabled) msg('O atendimento ainda não está disponível para contratação. Seu material comprado e seu presente continuam acessíveis.');
   }
@@ -110,7 +115,7 @@
       dialog('Atendimento', 'Este atendimento ainda não está disponível para contratação. Você pode continuar usando seu material e receber seu presente.'); return;
     }
     state.stage = 'checkout';
-    msg(`O atendimento custa ${money}, pagamento único. No próximo passo, confira os dados da contratação antes de confirmar o pagamento.\n\nDepois da confirmação, você recebe as instruções para continuar o atendimento.`);
+    msg(`Seu plano personalizado custa ${money}, em pagamento único.\n\nDê esse próximo passo: uma avaliação com a Luana para organizar sua alimentação considerando a vida que você tem hoje. Toque abaixo para conferir os dados e confirmar sua contratação com segurança pela Cakto.\n\nApós a confirmação do pagamento, a equipe entrará em contato para continuar seu atendimento.`);
     update();
   }
   function goCheckout() {
@@ -226,7 +231,7 @@
   function scheduleDelivery() {
     if (visibleCount >= state.history.length) return;
     const next = state.history[visibleCount];
-    const delay = next.kind === 'audio' ? 1100 : next.kind === 'testimonial' ? 750 : Math.min(1400, 650 + (next.text || '').length * 3);
+    const delay = next.kind === 'audio' ? 2800 : next.kind === 'testimonial' ? 2200 : Math.min(4200, 1800 + (next.text || '').length * 9);
     deliveryTimer = setTimeout(() => { visibleCount++; render(); scheduleDelivery(); }, delay);
   }
   function render() {
@@ -282,16 +287,16 @@
       case 'bridge':
         choose('Quero conhecer meu plano', testimonials, 'primary'); choose('Quero seguir só com as receitas', () => { msg('Combinado! Seu acesso às receitas continua disponível. E aqui vai o presente que prometi.'); gift(); }); break;
       case 'testimonials':
-        choose('Conhecer o atendimento e o valor', offer, 'primary');
+        choose('Quero ver como ter meu plano', offer, 'primary');
         choose('Vou ficar só com as receitas', gift, 'secondary'); break;
       case 'offer':
-        choice(`Quero contratar por ${money}`, checkout, 'primary');
+        choice(`Quero meu plano personalizado • ${money}`, checkout, 'primary');
         choose('Tenho uma dúvida', () => { state.stage = 'faq'; msg('Qual é sua dúvida?'); }); choose('Vou ficar só com as receitas', gift, 'secondary'); break;
       case 'faq':
         [['Qual a diferença para as receitas?', 'difference'], ['Vou precisar comprar comida cara?', 'cost'], ['Como recebo meu plano?', 'delivery'], ['Quem avalia minhas respostas?', 'professional']].forEach(([label, key]) => choose(label, () => faq(key)));
         choose('Seguir sem contratar', gift, 'secondary'); break;
       case 'checkout':
-        choice(`Abrir checkout • ${money}`, goCheckout, 'primary');
+        choice('Quero meu plano personalizado', goCheckout, 'primary');
         choose('Concluir a conversa', gift); break;
       case 'gift':
         choice('Abrir meu presente 🎁', () => window.open(config.giftUrl === 'presente.html' ? 'presente.html' : safeHttps(config.giftUrl) || 'presente.html', '_blank', 'noopener,noreferrer'), 'primary');
